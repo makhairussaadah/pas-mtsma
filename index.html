@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAS Genap - Khairussa'adah Kubu</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f5132,#198754,#157347);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:430px;
+background:white;
+border-radius:25px;
+padding:30px;
+box-shadow:0 20px 50px rgba(0,0,0,.25);
+animation:fade .7s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(30px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.logo-wrap{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-bottom:15px;
+}
+
+.logo-wrap img{
+width:70px;
+height:70px;
+object-fit:contain;
+}
+
+h1{
+font-size:20px;
+text-align:center;
+color:#157347;
+margin-bottom:8px;
+line-height:1.4;
+}
+
+.sub{
+text-align:center;
+font-size:14px;
+color:#666;
+margin-bottom:25px;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#198754;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+transition:.3s;
+}
+
+.btn:hover{
+background:#146c43;
+}
+
+.select-btn{
+background:#f8f9fa;
+color:#157347;
+border:2px solid #198754;
+}
+
+.select-btn:hover{
+background:#198754;
+color:white;
+}
+
+input{
+width:100%;
+padding:14px;
+border:1px solid #ccc;
+border-radius:12px;
+margin-bottom:12px;
+font-size:15px;
+}
+
+.back{
+background:#6c757d;
+}
+
+#error{
+color:red;
+font-size:14px;
+text-align:center;
+margin-top:10px;
+}
+
+.footer{
+text-align:center;
+margin-top:20px;
+font-size:12px;
+color:#888;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo-wrap">
+<img src="logo-mts.png">
+<img src="logo-ma.png">
+</div>
+
+<h1>PENILAIAN AKHIR SEMESTER (PAS) GENAP</h1>
+<div class="sub">
+MTs dan MA Khairussa'adah Kubu<br>
+Tahun Pelajaran 2025 / 2026
+</div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+<button class="btn select-btn" onclick="pilihSesi('sesi1')">SESI 1<br>07.30 - 09.30</button>
+<button class="btn select-btn" onclick="pilihSesi('sesi2')">SESI 2<br>10.00 - 11.30</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+<button class="btn select-btn" onclick="pilihKelas('x')">KELAS X</button>
+<button class="btn select-btn" onclick="pilihKelas('xi')">KELAS XI</button>
+<button class="btn select-btn" onclick="pilihKelas('vii')">KELAS VII</button>
+<button class="btn select-btn" onclick="pilihKelas('viii')">KELAS VIII</button>
+
+<button class="btn back" onclick="kembali(1)">Kembali</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+<input type="text" id="user" placeholder="Username">
+<input type="password" id="pass" placeholder="Password">
+
+<button class="btn" onclick="login()">MASUK UJIAN</button>
+<button class="btn back" onclick="kembali(2)">Kembali</button>
+
+<div id="error"></div>
+</div>
+
+<div class="footer">
+Powered by Khairussa'adah Kubu
+</div>
+
+</div>
+
+<script>
+let sesi = "";
+let kelas = "";
+
+// DATA LOGIN (isi sendiri)
+const akun = {
+x:{username:"x001",password:"12345"},
+xi:{username:"xi001",password:"12345"},
+vii:{username:"701",password:"12345"},
+viii:{username:"801",password:"12345"}
+};
+
+// LINK FORM (isi sendiri)
+const links = {
+sesi1_x:"LINK_KAMU",
+sesi1_xi:"LINK_KAMU",
+sesi1_vii:"LINK_KAMU",
+sesi1_viii:"LINK_KAMU",
+
+sesi2_x:"LINK_KAMU",
+sesi2_xi:"LINK_KAMU",
+sesi2_vii:"LINK_KAMU",
+sesi2_viii:"LINK_KAMU"
+};
+
+function show(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+function pilihSesi(x){
+sesi=x;
+show("page2");
+}
+
+function pilihKelas(x){
+kelas=x;
+show("page3");
+}
+
+function kembali(n){
+show("page"+n);
+document.getElementById("error").innerHTML="";
+}
+
+function login(){
+let u=document.getElementById("user").value.trim();
+let p=document.getElementById("pass").value.trim();
+
+if(u===akun[kelas].username && p===akun[kelas].password){
+window.location.href=links[sesi+"_"+kelas];
+}else{
+document.getElementById("error").innerHTML="Username / Password salah atau kelas tidak sesuai";
+}
+}
+</script>
+
+</body>
+</html>
